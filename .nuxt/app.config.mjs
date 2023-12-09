@@ -1,6 +1,6 @@
 
 import { updateAppConfig } from '#app'
-import { defuFn } from '/Users/bernhardkofler/disconnect_device/disconnect/node_modules/defu/dist/defu.mjs'
+import { defuFn } from '/Users/bernhardkofler/Coding/disconnect/node_modules/defu/dist/defu.mjs'
 
 const inlineConfig = {
   "nuxt": {
