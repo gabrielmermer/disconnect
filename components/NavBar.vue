@@ -1,7 +1,7 @@
 <template>
   <div>
     <ul class="flex flex-row">
-      <li class="p-3"><NuxtLink to="/">Home</NuxtLink></li>
+      <li class="p-3 m-4 outline outline-2 rounded-md"><NuxtLink to="/">Home</NuxtLink></li>
       <li class="p-3"><NuxtLink to="gpt">Gpt</NuxtLink></li>
       <li class="p-3"><NuxtLink to="clock">Clock</NuxtLink></li>
       <li class="p-3"><NuxtLink to="chat">Chat</NuxtLink></li>
