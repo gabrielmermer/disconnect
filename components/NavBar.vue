@@ -1,16 +1,16 @@
 <template>
   <div>
-    <ul class="flex flex-row">
-      <li class="p-3 m-4 outline outline-2 rounded-md"><NuxtLink to="/">Home</NuxtLink></li>
-      <li class="p-3"><NuxtLink to="gpt">Gpt</NuxtLink></li>
-      <li class="p-3"><NuxtLink to="clock">Clock</NuxtLink></li>
-      <li class="p-3"><NuxtLink to="chat">Chat</NuxtLink></li>
-      <li class="p-3"><NuxtLink to="music">Music</NuxtLink></li>
-      <li class="p-3"><NuxtLink to="weather">Weather</NuxtLink></li>
-      <li class="p-3"><NuxtLink to="notes">Notes</NuxtLink></li>
-      <li class="p-3"><NuxtLink to="calendar">Calendar</NuxtLink></li>
-      <li class="p-3"><NuxtLink to="youtube">Youtube</NuxtLink></li>
-      <li class="p-3"><NuxtLink to="settings">Settings</NuxtLink></li>
+    <ul class="flex flex-row justify-center border-2 border-b-neutral-900 bg-neutral-300">
+      <NavItem text="Home" route="/" />
+      <NavItem text="ChatGPT" route="gpt" />
+      <NavItem text="Clock" route="clock" />
+      <NavItem text="Chat" route="chat" />
+      <NavItem text="Music" route="music" />
+      <NavItem text="Weather" route="weather" />
+      <NavItem text="Notes" route="notes" />
+      <NavItem text="Calendar" route="calendar" />
+      <NavItem text="Youtube" route="youtube" />
+      <NavItem text="Settings" route="settings" />
     </ul>
   </div>
 </template>
