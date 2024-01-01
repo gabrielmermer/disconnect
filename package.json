@@ -12,8 +12,17 @@
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "@nuxtjs/tailwindcss": "^6.10.1",
-    "nuxt": "^3.8.0",
+    "nuxt": "^3.9.0",
     "vue": "^3.3.7",
     "vue-router": "^4.2.5"
+  },
+  "dependencies": {
+    "@daypilot/daypilot-lite-vue": "^3.19.0",
+    "@heroicons/vue": "^2.1.1",
+    "@nuxtjs/axios": "^5.13.6",
+    "add-to-calendar-button": "^2.5.6",
+    "axios": "^1.6.3",
+    "vue-cal": "^4.8.1",
+    "vue3-heroicons": "^1.0.0"
   }
 }
