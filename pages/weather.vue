@@ -102,7 +102,7 @@
 
 .error,
 .loading {
-  color: #e74c3c; /* Red color for errors/loading */
+  color: #ffffff; /* Red color for errors/loading */
   text-align: center;
 }
 
@@ -152,7 +152,7 @@ const selectedDate = ref(new Date().toISOString().split('T')[0]); // Default to 
 const fetchWeatherData = async () => {
   const baseUrl = 'https://api.open-meteo.com/v1/forecast';
   const params = new URLSearchParams({
-    latitude: '16.3721',
+    latitude: '48.2085',
     longitude: '16.3721',
     hourly: 'temperature_2m,relative_humidity_2m,snowfall,cloud_cover_high',
     timezone: 'Europe/Berlin',
