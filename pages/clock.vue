@@ -1,6 +1,22 @@
 <template>
-  <div class="clock-screen">
-    <!-- Clock -->
+  
+  <div class="clock-app">
+    <aside class="side-menu">
+      <nav>
+        <div class="nav-links">
+          <NuxtLink to="clock" class="nav-link">Clock</NuxtLink>
+          <NuxtLink to="alarm" class="nav-link">Alarm</NuxtLink>
+       
+      <NuxtLink to="timer" class="nav-link">Timer</NuxtLink>
+      
+    </div>
+      </nav>
+    </aside>
+    <div class="clock-header">
+          <h1 class="clock-title">Clock</h1>
+        </div>
+    <div class="clock-screen">
+     
     <div class="clock">
       <div class="clock-face">
         <div class="hour-hand" :style="{ transform: `rotate(${hourRotation}deg)` }"></div>
@@ -10,12 +26,8 @@
       </div>
    
     </div>
-
-    <!-- Navigation Links -->
-    <div class="nav-links">
-      <NuxtLink to="timer" class="nav-link">Timer</NuxtLink>
-      <NuxtLink to="alarm" class="nav-link">Alarm</NuxtLink>
-    </div>
+</div>
+  
   </div>
 </template>
 
@@ -69,21 +81,55 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-.clock-screen {
-  background-color: #111; /* Keep dark mode */
+
+.clock-app {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  height: 100vh;
+  background-color: #111;
+  color: #fff; /* Text color */
+}
+.clock-screen{
+  flex-grow: 1;
+  display: flex;
   justify-content: center;
-  min-height: 100vh;
+  align-items: center;
+
+}
+.side-menu {
+  width: 200px;
+  background-color: #2b2e31; /* Side menu background */
 }
 
+.clock-header {
+  text-align: center;
+  margin-left: 40px;
+  margin-top: 40px;
+}
+
+.clock-title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+.side-menu nav .nav-link {
+  display: block;
+  padding: 1rem;
+  color: #fff;
+  text-decoration: none;
+  border-bottom: 1px solid #333;
+}
+
+.side-menu nav .nav-link.active {
+  background-color: #3eabc3;
+}
+
+
 .clock {
-  position: relative;
+  position: fixed;
   width: 200px;
   height: 200px;
   border-radius: 50%; /* Make it a circle */
-  
+  margin-right: 220px;
+  margin-bottom: 50px;
 }
 
 .clock-face {
@@ -149,23 +195,5 @@ onUnmounted(() => {
   margin-top: 20px;
 }
 
-/* Style navigation links */
-.nav-links {
-  margin-top: 20px;
-  display: flex;
-  gap: 20px;
-}
 
-.nav-link {
-  text-decoration: none;
-  color: #bababa; /* Red color for links */
-  font-weight: bold;
-  font-size: 1.5rem;
-  transition: color 0.3s;
-}
-
-.nav-link:hover {
-  color: #3eabc3; /* Orange color on hover */
-  text-decoration: underline;
-}
 </style>

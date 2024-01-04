@@ -87,7 +87,7 @@ export default {
   methods: {
     addEvent() {
   if (this.newEvent.title && this.newEvent.start && this.newEvent.end) {
-    // Format the start and end times consistently
+
     const formattedStart = this.newEvent.start.replace('T', ' ');
     const formattedEnd = this.newEvent.end.replace('T', ' ');
 
@@ -99,14 +99,13 @@ export default {
       background: true
     });
 
-    // Reset form fields
+  
     this.newEvent.title = '';
     this.newEvent.start = '';
     this.newEvent.end = '';
 
-    // Close form and force re-render
     this.showAddEventForm = false;
-    this.calendarKey++; // Assuming you have a `calendarKey` data property
+    this.calendarKey++; 
   } else {
     alert('Please fill all the fields');
   }
@@ -132,7 +131,7 @@ form {
   box-shadow: 0 0 7px rgb(0, 204, 255); 
   border: 4px solid #000000; 
   position: relative;
-  z-index: 1000; /* Ensure the form is above the backdrop */
+  z-index: 1000; 
 }
 
 
@@ -147,6 +146,7 @@ input {
 input::placeholder {
   color: #95a5a6; 
 }
+
 
 button {
   padding: 5px 5px;
@@ -165,9 +165,9 @@ button {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-  backdrop-filter: blur(5px); /* Apply a blur effect */
-  z-index: 999; /* Ensure the backdrop is above other content */
+  background-color: rgba(0, 0, 0, 0.5); 
+  backdrop-filter: blur(5px); 
+  z-index: 999;
 }
 
 

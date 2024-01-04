@@ -6,22 +6,22 @@
         Error loading weather data: {{ error }}
       </div>
       <div v-else-if="weatherData">
-        <!-- Conditionally render the date input and button -->
+     
         <div v-if="!buttonPressed">
-          <!-- Date Picker -->
+          
           <input type="date" v-model="selectedDate">
-          <!-- Trigger Button -->
+          
           <button @click="filterWeatherByDate">Show Weather</button>
         </div>
         
-        <!-- Weather Data Display with Overflow Scroll -->
+       
         <div class="weather-list-container">
           <ul class="weather-list">
             <li v-for="(data, index) in filteredWeatherData" :key="index">
               {{ new Date(data.time).toLocaleTimeString() }} - 
               Temp: {{ data.temperature }}°C,
               Humidity: {{ data.humidity }}%,
-              <!-- Add more data as needed -->
+             
             </li>
           </ul>
         </div>
@@ -61,27 +61,27 @@
 }
 
 .weather-list-container {
-  max-height: 300px; /* Set a max height for the container */
-  overflow-y: scroll; /* Enable vertical scrolling when content overflows */
-  scrollbar-width: thin; /* Adjust scrollbar width */
-  scrollbar-color: #3498db #111; /* Customize scrollbar colors */
+  max-height: 300px;
+  overflow-y: scroll; 
+  scrollbar-width: thin; 
+  scrollbar-color: #3498db #111; 
 }
 
 .weather-list-container::-webkit-scrollbar {
-  width: 10px; /* Adjust the scrollbar width for Webkit browsers */
+  width: 10px; 
 }
 
 .weather-list-container::-webkit-scrollbar-thumb {
-  background-color: #3498db; /* Customize the scrollbar thumb color */
-  border-radius: 5px; /* Add some border radius to the thumb */
+  background-color: #3498db; 
+  border-radius: 5px; 
 }
 
 .weather-list-container::-webkit-scrollbar-thumb:hover {
-  background-color: #2980b9; /* Change thumb color on hover */
+  background-color: #2980b9; 
 }
 
 .weather-list-container::-webkit-scrollbar-track {
-  background-color: #111; /* Customize the scrollbar track color */
+  background-color: #111; 
 }
 
 
@@ -102,12 +102,12 @@
 
 .error,
 .loading {
-  color: #ffffff; /* Red color for errors/loading */
+  color: #ffffff;
   text-align: center;
 }
 
 button {
-  background-color: #2980b9; /* Blue background */
+  background-color: #2980b9; 
   border: none;
   color: white;
   padding: 10px 20px;
@@ -126,7 +126,8 @@ input[type="date"] {
   color: white;
   display: block;
   margin: 10px auto;
-  padding: 5px;
+  margin-top: 40px;
+  padding: 10px;
   border-radius: 4px;
   transition: border-color 0.3s ease;
 }
@@ -183,9 +184,15 @@ const filterWeatherByDate = () => {
     }))
     .filter(data => new Date(data.time).toDateString() === date.toDateString());
   
-  // Update the buttonPressed variable to hide the button and date input
+  
   buttonPressed.value = true;
 };
 
 onMounted(fetchWeatherData);
 </script>
+
+
+
+
+
+

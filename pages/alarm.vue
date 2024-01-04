@@ -1,39 +1,64 @@
 <template>
-      <Notification ref="notification" :message="notificationMessage" :type="notificationType" />
-  <div class="alarm-screen">
+     <Notification ref="notification" :message="notificationMessage" :type="notificationType" />
+  <div class="alarm-app">
+    
+    <aside class="side-menu">
+      <nav>
+        <div class="nav-links">
+          <NuxtLink to="clock" class="nav-link">Clock</NuxtLink>
+          <NuxtLink to="alarm" class="nav-link">Alarm</NuxtLink>
+      <NuxtLink to="timer" class="nav-link">Timer</NuxtLink>
+ 
+    </div>
+      </nav>
+    </aside>
+    <div class="alarm-header">
+          <h1 class="alarm-title">Alarms</h1>
+        </div>
+    <div class="alarm-screen">
+      
+      <div class="alarm-container">
+       
+        <div class="alarm-list">
+          <AlarmItem v-for="(alarm, index) in alarms" :key="index" :alarm="alarm" @deleteAlarm="deleteAlarm(index)" />
+        </div>
+
+        <div v-if="showAlarmForm" class="alarm-form-modal">
+    <form class="alarm-form" @submit.prevent="addAlarm">
+      <input type="time" v-model="newAlarmTime" required />
+      <button  type="submit">Set Alarm</button>
+      <button id="cancel" type="button" @click="showAlarmForm = false">Cancel</button>
+    </form>
+  </div>
 
   
-    <div class="alarm-container">
-     
-      <div class="alarm-header">
-        <h1 class="alarm-title"> Alarm</h1>
+  <button
+  class="fixed bottom-20 right-14 text-white font-bold py-2 px-4 rounded-full "
+  @click="showAlarmForm = true" id="plusBtn">
+      <svg class="w-9 h-9 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+    <path d="M9.546.5a9.5 9.5 0 1 0 9.5 9.5 9.51 9.51 0 0 0-9.5-9.5ZM13.788 11h-3.242v3.242a1 1 0 1 1-2 0V11H5.304a1 1 0 0 1 0-2h3.242V5.758a1 1 0 0 1 2 0V9h3.242a1 1 0 1 1 0 2Z"/>
+  </svg>
+    
+    </button>
       </div>
-      <div class="alarm-list">
-        <div v-for="(alarm, index) in alarms" :key="index" class="alarm-item">
-          <div class="alarm-info">
-            <p class="alarm-text">{{ alarm .time}}</p>
-          </div>
-          <button @click="deleteAlarm(index)" class="delete-button">Delete</button>
-        </div>
-      </div>
-      <div class="alarm-input">
-        <input
-          type="time"
-          v-model="newAlarm"
-          class="alarm-input-field"
-        />
-        <button @click="addAlarm" class="set-alarm-button">Set Alarm</button>
-      </div>
-
-
-    </div>  
+    </div>
   </div>
+
+ 
+
  
 </template>
+
+
+
+  
+ 
+
+
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 import Notification from '~/components/notification.vue'; 
-
+import AlarmItem from '~/components/AlarmItem.vue';
 
 const alarms = ref([]);
 const newAlarm = ref('');
@@ -42,10 +67,16 @@ const notificationMessage = ref('');
 const notificationType = ref('');
 
 
+
+const showAlarmForm = ref(false);
+const newAlarmTime = ref('');
+
+
 const addAlarm = () => {
-  if (newAlarm.value) {
-    alarms.value.push({ time: newAlarm.value.slice(0, 5), triggered: false });
-    newAlarm.value = '';
+  if (newAlarmTime.value) {
+    alarms.value.push({ time: newAlarmTime.value, triggered: false });
+    newAlarmTime.value = '';
+    showAlarmForm.value = false; // Hide the form after adding the alarm
   }
 };
 
@@ -81,26 +112,61 @@ onUnmounted(() => {
 });
 </script>
 
-
 <style scoped>
-.alarm-screen {
-  background-color: #111;
+.alarm-app {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  height: 100vh;
+  background-color: #111;
+  color: #fff; 
+}
+
+.side-menu {
+  width: 200px;
+  background-color: #2b2e31; 
+}
+
+.side-menu nav .nav-link {
+  display: block;
+  padding: 1rem;
+  color: #fff;
+  text-decoration: none;
+  border-bottom: 1px solid #333;
+}
+
+.side-menu nav .nav-link.active {
+  background-color: #3eabc3;
+}
+button {
+  padding: 5px 5px;
+  background-color: #0f0f0f; 
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+}
+#plusBtn{
+  box-shadow: 0 0 7px rgb(0, 204, 255); 
+}
+.alarm-screen {
+  flex-grow: 1;
+  display: flex;
   justify-content: center;
-  min-height: 100vh;
+  align-items: center;
 }
 
 .alarm-container {
-  border: 4px solid #000000; 
-  color: #fff;
-  padding: 2rem;
-  border-radius: 10px;
- 
+  width: 100%;
+  max-width: 600px;
+  margin-right: 220px;
+  margin-bottom: 50px;
+}
+
+.alarm-header {
   text-align: center;
-  background-color: #222; 
-  box-shadow: 0 0 7px rgb(0, 204, 255); 
+  margin-left: 40px;
+  margin-top: 40px;
 }
 
 .alarm-title {
@@ -112,56 +178,83 @@ onUnmounted(() => {
   margin-top: 1rem;
 }
 
-.alarm-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  background-color: #333;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-}
-
-.alarm-info {
-  flex-grow: 1;
-  text-align: left;
-}
-
-.alarm-text {
-  font-size: 1.2rem;
-}
-
-.delete-button {
-  padding: 0.5em 1em;
-  margin: 0.5em;
-  cursor: pointer;
-  border: none;
-  transition: background-color 0.3s;
-  background-color: #dcdcdc;
-  color: black
-}
-
 .alarm-input {
   display: flex;
-  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
 }
 
 .alarm-input-field {
-  border: 1px solid #4e4e4e;
-  background-color: #282a2d;
-  color: #ecf0f1;
-  padding: 10px;
-  border-radius: 4px;
+  flex-grow: 1;
   margin-right: 1rem;
+  padding: 0.5rem;
+  background-color: #333;
+  border: 1px solid #4e4e4e;
+  color: #ecf0f1;
+  border-radius: 4px;
 }
 
 .set-alarm-button {
-  padding: 0.5em 1em;
-  margin: 0.5em;
-  cursor: pointer;
-  border: none;
-
+  padding: 0.5rem 1rem;
   background-color: #3eabc3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
+
+.set-alarm-button:hover {
+  background-color: #2980b9;
+}
+
+
+
+.alarm-form-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.alarm-form {
+  background-color: #222;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 7px rgb(0, 204, 255);
+}
+
+
+.alarm-form input{
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  border: 1px solid #4e4e4e;
+  background-color: #282a2d;
+  color: #ecf0f1;
+}
+#cancel{
+  background-color: #dcdcdc;
+  color: black
+}
+.alarm-form button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  margin-top: 10px;
+  cursor: pointer;
+  background-color: #3eabc3;
+  color: white;
+}
+
+.alarm-form button:hover {
+  background-color: #2980b9;
+}
+
 
 </style>
