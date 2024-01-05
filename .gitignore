@@ -22,3 +22,4 @@ logs
 !.env.example
 
 package-lock.json
+.vscode
