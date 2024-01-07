@@ -31,7 +31,7 @@
   </div>
 </div>
 
-<!-- Timer Input -->
+
 <div class="timer-input mb-8">
   <input type="text" v-model="timerHours" placeholder="HH" class="timer-input-field" maxlength="2" />
   <input type="text" v-model="timerMinutes" placeholder="MM" class="timer-input-field" maxlength="2" />

@@ -60,62 +60,51 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref } from 'vue';
 
-import VueCal from 'vue-cal'
-import 'vue-cal/dist/vuecal.css'
+import VueCal from 'vue-cal';
 
-export default {
-  components: {
-    VueCal
-  },
+import 'vue-cal/dist/vuecal.css';
 
-  data() {
-    return {
-      events: [], 
-      showAddEventForm: false,
-      newEvent: {
-        title: '',
-        start: '',
-        end: '',
-      },
-      calendarKey: 0,
-      
-    
-    };
-  },
-  methods: {
-    addEvent() {
-  if (this.newEvent.title && this.newEvent.start && this.newEvent.end) {
 
-    const formattedStart = this.newEvent.start.replace('T', ' ');
-    const formattedEnd = this.newEvent.end.replace('T', ' ');
 
-    this.events.push({
+const events = ref([]);
+const showAddEventForm = ref(false);
+const newEvent = reactive({
+  title: '',
+  start: '',
+  end: '',
+});
+const calendarKey = ref(0);
+
+
+const addEvent = () => {
+  if (newEvent.title && newEvent.start && newEvent.end) {
+    const formattedStart = newEvent.start.replace('T', ' ');
+    const formattedEnd = newEvent.end.replace('T', ' ');
+
+    events.value.push({
       start: formattedStart,
       end: formattedEnd,
-      title: this.newEvent.title,
+      title: newEvent.title,
       class: 'custom-class',
       background: true
     });
 
-  
-    this.newEvent.title = '';
-    this.newEvent.start = '';
-    this.newEvent.end = '';
-
-    this.showAddEventForm = false;
-    this.calendarKey++; 
+    newEvent.title = '';
+    newEvent.start = '';
+    newEvent.end = '';
+    showAddEventForm.value = false;
+    calendarKey.value++;
   } else {
     alert('Please fill all the fields');
   }
-},
-}
-
-
-
 };
 </script>
+
+
+
 
 <style scoped>
 

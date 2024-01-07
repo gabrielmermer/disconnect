@@ -10,22 +10,27 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    alarm: {
-      type: Object,
-      required: true
-    }
-  },
-  methods: {
-  
-    deleteAlarm() {
-      this.$emit('delete-alarm', this.alarm.id);
-    }
+<script setup>
+import {  defineProps, defineEmits } from 'vue';
+
+
+const props = defineProps({
+  alarm: {
+    type: Object,
+    required: true
   }
-};
+});
+
+const emit = defineEmits(['delete-alarm']);
+
+
+const { alarm } = toRefs(props);
+
+function deleteAlarm() {
+  emit('delete-alarm', alarm.value.id);
+}
 </script>
+
 
 <style scoped>
 .alarm-item {

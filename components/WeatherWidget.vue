@@ -15,23 +15,20 @@
 
 
 
+<script setup>
+import { ref, watchEffect } from 'vue';
 
+const props = defineProps({
+  currentDate: String,
+  currentTime: String
+});
 
-<script>
-import { ref, provide } from 'vue';
+const weatherData = ref(null);
+const currentWeather = ref(null);
+const error = ref(null);
 
-export default {
-  props: {
-    currentDate: String,
-    currentTime: String
-  },
-  setup(props) {
-    const weatherData = ref(null);
-    const currentWeather = ref(null);
-    const error = ref(null);
-
-    const fetchWeatherData = async () => {
-      const baseUrl = 'https://api.open-meteo.com/v1/forecast';
+const fetchWeatherData = async () => {
+  const baseUrl = 'https://api.open-meteo.com/v1/forecast';
   const params = new URLSearchParams({
     latitude: '48.2085',
     longitude: '16.3721',
@@ -49,11 +46,11 @@ export default {
   } catch (e) {
     error.value = e.message;
   }
-    };
+};
 
-    
-    const updateCurrentWeather = () => {
-      if (weatherData.value && props.currentDate && props.currentTime) {
+
+const updateCurrentWeather = () => {
+  if (weatherData.value && props.currentDate && props.currentTime) {
     try {
       const datetime = new Date(`${props.currentDate} ${props.currentTime}`);
       if (isNaN(datetime)) throw new Error('Invalid datetime');
@@ -69,18 +66,12 @@ export default {
       error.value = 'Invalid date/time format';
     }
   }
-    };
-
-    provide('fetchWeatherData', fetchWeatherData);
-
-    return {
-      weatherData,
-      currentWeather,
-      error,
-      fetchWeatherData
-    };
-  }
 };
+
+
+watchEffect(() => {
+  fetchWeatherData();
+});
 </script>
 
 

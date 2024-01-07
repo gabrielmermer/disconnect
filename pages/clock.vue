@@ -97,7 +97,7 @@ onUnmounted(() => {
 }
 .side-menu {
   width: 200px;
-  background-color: #2b2e31; /* Side menu background */
+  background-color: #2b2e31; 
 }
 
 .clock-header {
@@ -127,7 +127,7 @@ onUnmounted(() => {
   position: fixed;
   width: 200px;
   height: 200px;
-  border-radius: 50%; /* Make it a circle */
+  border-radius: 50%; 
   margin-right: 220px;
   margin-bottom: 50px;
 }
@@ -140,8 +140,8 @@ onUnmounted(() => {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background-color: #222; /* Darker background */
-  box-shadow: 0 0 7px rgb(0, 204, 255); /* Add a subtle shadow */
+  background-color: #222; 
+  box-shadow: 0 0 7px rgb(0, 204, 255); 
 }
 
 .hour-hand,
@@ -154,11 +154,11 @@ onUnmounted(() => {
   left: 50%;
 }
 
-/* Radical styles for clock hands and center circle */
+
 .hour-hand {
   width: 10px;
   height: 40%;
-  background-color: #ffffff; /* Radical color */
+  background-color: #ffffff; 
   transform: translateX(-50%) rotate(0deg);
   transition: transform 0.5s;
 }
@@ -166,7 +166,7 @@ onUnmounted(() => {
 .minute-hand {
   width: 6px;
   height: 50%;
-  background-color: #ffffff; /* Radical color */
+  background-color: #ffffff; 
   transform: translateX(-50%) rotate(0deg);
   transition: transform 0.5s;
 }
@@ -174,7 +174,7 @@ onUnmounted(() => {
 .second-hand {
   width: 3px;
   height: 50%;
-  background-color: #3eabc3; /* Radical color */
+  background-color: #3eabc3; 
   transform: translateX(-50%) rotate(0deg);
   transition: transform 0.5s cubic-bezier(0.4, 2.4, 0.6, 0.8);
 }
@@ -182,7 +182,7 @@ onUnmounted(() => {
 .center-circle {
   width: 15px;
   height: 15px;
-  background-color: #ffffff; /* Radical color */
+  background-color: #ffffff; 
   border-radius: 50%;
   left: 50%;
   top: 50%;
@@ -191,7 +191,7 @@ onUnmounted(() => {
 
 .time-display {
   font-size: 2rem;
-  color: #fff; /* White text color */
+  color: #fff; 
   margin-top: 20px;
 }
 

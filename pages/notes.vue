@@ -39,11 +39,10 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref, computed } from 'vue';
 
-export default {
-  setup() {
+
     const searchQuery = ref('');
     const showNoteForm = ref(false);
     const notes = ref([]);
@@ -82,17 +81,9 @@ export default {
       }
     }
 
-    return {
-      searchQuery,
-      showNoteForm,
-      notes,
-      deleteNote,
-      newNote,
-      submitNewNote,
-      filteredNotes,
-    };
-  },
-};
+    
+  
+
 </script>
 
 <style scoped>
