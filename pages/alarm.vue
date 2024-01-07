@@ -68,20 +68,40 @@ const notificationType = ref('');
 
 
 
+
 const showAlarmForm = ref(false);
 const newAlarmTime = ref('');
-
-
-const addAlarm = () => {
-  if (newAlarmTime.value) {
-    alarms.value.push({ time: newAlarmTime.value, triggered: false });
-    newAlarmTime.value = '';
-    showAlarmForm.value = false; // Hide the form after adding the alarm
+// Initialize alarms from local storage
+const initializeAlarms = () => {
+  const storedAlarms = localStorage.getItem('alarms');
+  if (storedAlarms) {
+    alarms.value = JSON.parse(storedAlarms);
   }
 };
 
+
+// Modify the addAlarm function to save the alarms in local storage
+const addAlarm = () => {
+  if (newAlarmTime.value) {
+    const newAlarmObject = { time: newAlarmTime.value, triggered: false };
+    alarms.value.push(newAlarmObject);
+    newAlarmTime.value = '';
+    showAlarmForm.value = false;
+
+    // Save alarms in local storage
+    localStorage.setItem('alarms', JSON.stringify(alarms.value));
+  }
+};
+
+// Implement a function to remove alarms from local storage when they are deleted
+const removeAlarmFromLocalStorage = () => {
+  localStorage.setItem('alarms', JSON.stringify(alarms.value));
+};
+
+// Call removeAlarmFromLocalStorage whenever you delete an alarm
 const deleteAlarm = (index) => {
   alarms.value.splice(index, 1);
+  removeAlarmFromLocalStorage();
 };
 
 const checkAlarms = () => {
@@ -105,6 +125,7 @@ let intervalId;
 
 onMounted(() => {
   intervalId = setInterval(checkAlarms, 1000);
+  initializeAlarms();
 });
 
 onUnmounted(() => {

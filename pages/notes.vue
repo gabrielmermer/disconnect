@@ -40,51 +40,75 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 
+const searchQuery = ref('');
+const showNoteForm = ref(false);
+const notes = ref([]);
+const newNote = ref({
+  title: '',
+  content: '',
+});
 
-    const searchQuery = ref('');
-    const showNoteForm = ref(false);
-    const notes = ref([]);
-    const newNote = ref({
-      title: '',
-      content: '',
-    });
+// Function to initialize notes from local storage
+const initializeNotes = () => {
+  const storedNotes = localStorage.getItem('notes');
+  if (storedNotes) {
+    notes.value = JSON.parse(storedNotes);
+  }
+};
 
-    function submitNewNote() {
-      if (newNote.value.title && newNote.value.content) {
-        const noteToAdd = {
-          id: Date.now(),
-          title: newNote.value.title,
-          preview: newNote.value.content.substring(0, 100),
-          content: newNote.value.content,
-          date: new Date().toLocaleDateString(),
-        };
-        notes.value.push(noteToAdd);
-        newNote.value.title = '';
-        newNote.value.content = '';
-        showNoteForm.value = false;
-      } else {
-        alert('Please fill out all fields.');
-      }
-    }
+// Function to save notes in local storage
+const saveNotesToLocalStorage = () => {
+  localStorage.setItem('notes', JSON.stringify(notes.value));
+};
 
-    const filteredNotes = computed(() =>
-      notes.value.filter((note) =>
-        note.title.toLowerCase().includes(searchQuery.value.toLowerCase())
-      )
-    );
-    function deleteNote(id) {
-      const index = notes.value.findIndex(note => note.id === id);
-      if (index !== -1) {
-        notes.value.splice(index, 1);
-      }
-    }
+// Function to submit a new note
+const submitNewNote = () => {
+  if (newNote.value.title && newNote.value.content) {
+    const noteToAdd = {
+      id: Date.now(),
+      title: newNote.value.title,
+      preview: newNote.value.content.substring(0, 100),
+      content: newNote.value.content,
+      date: new Date().toLocaleDateString(),
+    };
+    notes.value.push(noteToAdd);
+    newNote.value.title = '';
+    newNote.value.content = '';
+    showNoteForm.value = false;
 
-    
-  
+    // Save notes in local storage
+    saveNotesToLocalStorage();
+  } else {
+    alert('Please fill out all fields.');
+  }
+};
 
+// Function to delete a note
+const deleteNote = (id) => {
+  const index = notes.value.findIndex((note) => note.id === id);
+  if (index !== -1) {
+    notes.value.splice(index, 1);
+
+    // Update local storage after deleting the note
+    saveNotesToLocalStorage();
+  }
+};
+
+// Initialize notes from local storage when the application loads
+onMounted(() => {
+  initializeNotes();
+});
+
+// Computed property for filtered notes based on the search query
+const filteredNotes = computed(() =>
+  notes.value.filter((note) =>
+    note.title.toLowerCase().includes(searchQuery.value.toLowerCase())
+  )
+);
 </script>
+
 
 <style scoped>
 
