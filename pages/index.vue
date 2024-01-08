@@ -1,5 +1,5 @@
 <template>
-  <div class="home-screen bg-black">
+  <div class="home-screen bg-black text-white h-screen flex flex-col justify-between">
     <div class="time-date-container text-center py-8">
       <div class="text-6xl font-bold">{{ time }}</div>
       <div class="text-xl">{{ date }}</div>

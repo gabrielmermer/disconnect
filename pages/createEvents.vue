@@ -8,7 +8,7 @@
         <input type="datetime-local" v-model="newEvent.start" required class="block w-full px-4 py-2 mb-4 border rounded" />
         <input type="datetime-local" v-model="newEvent.end" required class="block w-full px-4 py-2 mb-4 border rounded"/>
         <button type="submit" class="bg-gray-900 text-white font-bold py-2 px-4 rounded">Add Event</button>
-        <button @click="showAddEventForm = false">Cancel</button>
+        <button @click="cancelAndGoBack">Cancel</button>
       </form>
     </div>
   </div>
@@ -23,6 +23,11 @@ const newEvent = reactive({
   end: ''
 });
 const showAddEventForm = ref(true);
+const cancelAndGoBack = () => {
+  showAddEventForm.value = false; 
+    window.location.href = '/calender';
+
+};
 
 const addEvent = () => {
   if (newEvent.title && newEvent.start && newEvent.end) {
@@ -57,7 +62,11 @@ const addEvent = () => {
 
 <style scoped>
 .screen{
-  background-color: #000000;
+
+  display: flex;
+  height: 100vh;
+  background-color: #111;
+  color: #fff; /* Text color */
 }
 
 form {
