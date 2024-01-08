@@ -164,9 +164,15 @@ button {
   border: none;
   border-radius: 50px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+ 
+  transition: transform 0.2s ease-in-out;
+}
+
+button:hover {
+transform: scale(1.35);
 
 }
+
 #plusBtn{
   box-shadow: 0 0 7px rgb(0, 204, 255); 
 }

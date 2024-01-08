@@ -78,7 +78,7 @@ onMounted(() => {
   border: none;
   border-radius: 50px;
   cursor: pointer;
-
+  box-shadow: 0 0 7px rgb(0, 204, 255); 
   transition: transform 0.2s ease-in-out;
 }
 

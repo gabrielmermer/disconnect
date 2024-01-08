@@ -7,6 +7,9 @@
     </div>
   
     <button @click="deleteAlarm" class="delete-button">Delete</button>
+
+
+    
   </div>
 </template>
 
