@@ -1,7 +1,7 @@
 <template>
   <div class="calendar-container relative">
 
-    <vue-cal :key="calendarKey" :events="events" style="height: 540px;"></vue-cal>
+    <vue-cal :key="calendarKey" :events="events" style="height: 680px;"></vue-cal>
 
     <div class="Btns">
       <button id="Btn" class="text-white font-bold py-2 px-4 rounded-full fixed bottom-16 left-48" @click="clearEvents">
