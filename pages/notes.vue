@@ -39,9 +39,14 @@
   </div>
 </template>
 
+
+
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 
+import { useNuxtApp } from '#app'; // Ensure this import is present
+
+const { $api } = useNuxtApp();
 const searchQuery = ref('');
 const showNoteForm = ref(false);
 const notes = ref([]);
@@ -50,55 +55,57 @@ const newNote = ref({
   content: '',
 });
 
-// Function to initialize notes from local storage
-const initializeNotes = () => {
-  const storedNotes = localStorage.getItem('notes');
-  if (storedNotes) {
-    notes.value = JSON.parse(storedNotes);
+// Function to fetch notes from PocketBase
+// Replace api with $api inside your methods
+const fetchNotes = async () => {
+  try {
+    const response = await $api.get('collections/Notes/records');
+    notes.value = response.data.records;
+  } catch (error) {
+    console.error('Failed to fetch notes:', error);
   }
 };
 
-// Function to save notes in local storage
-const saveNotesToLocalStorage = () => {
-  localStorage.setItem('notes', JSON.stringify(notes.value));
-};
 
-// Function to submit a new note
-const submitNewNote = () => {
+// Function to save a new note to PocketBase
+const submitNewNote = async () => {
   if (newNote.value.title && newNote.value.content) {
-    const noteToAdd = {
-      id: Date.now(),
-      title: newNote.value.title,
-      preview: newNote.value.content.substring(0, 100),
-      content: newNote.value.content,
-      date: new Date().toLocaleDateString(),
-    };
-    notes.value.push(noteToAdd);
-    newNote.value.title = '';
-    newNote.value.content = '';
-    showNoteForm.value = false;
+    try {
+      const response = await $api.post('collections/Notes/records', { // Use $api here
+        title: newNote.value.title,
+        content: newNote.value.content,
+      });
+      notes.value.push(response.data);
+      newNote.value.title = '';
+      newNote.value.content = '';
+      showNoteForm.value = false;
+    } catch (error) {
+  const errorMessage = error.response && error.response.data && error.response.data.message
+    ? error.response.data.message
+    : error.message || 'An unknown error occurred';
+  alert(`Failed to save note: ${errorMessage}`);
+  console.error('Error details:', error.response || error);
+}}
 
-    // Save notes in local storage
-    saveNotesToLocalStorage();
-  } else {
+   else {
     alert('Please fill out all fields.');
   }
 };
 
-// Function to delete a note
-const deleteNote = (id) => {
-  const index = notes.value.findIndex((note) => note.id === id);
-  if (index !== -1) {
-    notes.value.splice(index, 1);
-
-    // Update local storage after deleting the note
-    saveNotesToLocalStorage();
+// Function to delete a note from PocketBase
+const deleteNote = async (id) => {
+  try {
+    await $api.delete(`collections/Notes/records/${id}`);
+    notes.value = notes.value.filter((note) => note.id !== id);
+  } catch (error) {
+    console.error('Failed to delete note:', error);
   }
 };
 
-// Initialize notes from local storage when the application loads
+
+// Initialize notes by fetching them from PocketBase when the application loads
 onMounted(() => {
-  initializeNotes();
+  fetchNotes();
 });
 
 // Computed property for filtered notes based on the search query
