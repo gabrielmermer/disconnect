@@ -5,10 +5,12 @@
     </div>
     <div class="notes-list">
       <div class="note-content">
-        <div class="note-preview" v-for="note in filteredNotes" :key="note.id">
+   <div class="note-preview" v-for="note in filteredNotes" :key="note.id">
         <h3>{{ note.title }}</h3>
-        <p>{{ note.preview }}</p>
-        <small style="color: rgb(163, 163, 163);">{{ note.date }}</small>
+
+  <p>{{ note.content }}</p>
+  <small style="color: rgb(163, 163, 163);">{{ note.createdAt || note.created }}</small>
+
         <button @click="deleteNote(note.id)" class="delete-note-btn">Delete</button>
       </div>
     
@@ -44,38 +46,47 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 
-import { useNuxtApp } from '#app'; // Ensure this import is present
+import { useNuxtApp } from '#app'; 
 
 const { $api } = useNuxtApp();
 const searchQuery = ref('');
 const showNoteForm = ref(false);
+
 const notes = ref([]);
+
 const newNote = ref({
   title: '',
   content: '',
 });
 
-// Function to fetch notes from PocketBase
-// Replace api with $api inside your methods
+
 const fetchNotes = async () => {
   try {
     const response = await $api.get('collections/Notes/records');
-    notes.value = response.data.records;
+    
+    notes.value = response.data.items || []; 
   } catch (error) {
     console.error('Failed to fetch notes:', error);
+    notes.value = []; 
   }
 };
 
 
-// Function to save a new note to PocketBase
+
 const submitNewNote = async () => {
   if (newNote.value.title && newNote.value.content) {
-    try {
-      const response = await $api.post('collections/Notes/records', { // Use $api here
-        title: newNote.value.title,
-        content: newNote.value.content,
-      });
-      notes.value.push(response.data);
+     try {
+    const response = await $api.post('collections/Notes/records', {
+      title: newNote.value.title,
+      content: newNote.value.content,
+    });
+
+    if (!Array.isArray(notes.value)) {
+      notes.value = [];
+    }
+ console.log(response.data);
+notes.value.push(response.data);
+
       newNote.value.title = '';
       newNote.value.content = '';
       showNoteForm.value = false;
@@ -92,7 +103,7 @@ const submitNewNote = async () => {
   }
 };
 
-// Function to delete a note from PocketBase
+
 const deleteNote = async (id) => {
   try {
     await $api.delete(`collections/Notes/records/${id}`);
@@ -103,12 +114,12 @@ const deleteNote = async (id) => {
 };
 
 
-// Initialize notes by fetching them from PocketBase when the application loads
+
 onMounted(() => {
   fetchNotes();
 });
 
-// Computed property for filtered notes based on the search query
+
 const filteredNotes = computed(() =>
   notes.value.filter((note) =>
     note.title.toLowerCase().includes(searchQuery.value.toLowerCase())
